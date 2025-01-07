@@ -1,7 +1,7 @@
-package org.example.chatservice.config;
+package org.example.chatservice.global.config;
 
 import lombok.RequiredArgsConstructor;
-import org.example.chatservice.handlers.WebSocketChatHandler;
+import org.example.chatservice.global.handlers.WebSocketChatHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;

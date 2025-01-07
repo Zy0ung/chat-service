@@ -1,4 +1,4 @@
-package org.example.chatservice.handlers;
+package org.example.chatservice.global.handlers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

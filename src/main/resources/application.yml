@@ -1,6 +1,15 @@
 spring:
   application:
     name: chat-service
+  datasource:
+    url: jdbc:mysql://localhost:3308/chat_service
+    username:
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
   security:
     oauth2:
       client:
@@ -10,6 +19,12 @@ spring:
             client-secret:
             scope:
               - profile_nickname
+              - account_email
+              - name
+              - gender
+              - birthday
+              - birthyear
+              - phone_number
             redirect-uri: "http://localhost:8080/login/oauth2/code/kakao"
             client-name: kakao
             authorization-grant-type: authorization_code
