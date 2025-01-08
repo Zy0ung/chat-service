@@ -2,9 +2,9 @@ package org.example.chatservice.global.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.chatservice.global.vos.CustomOAuth2User;
-import org.example.chatservice.user.emum.Gender;
-import org.example.chatservice.user.entity.Member;
-import org.example.chatservice.user.repository.MemberRepository;
+import org.example.chatservice.domain.emum.Gender;
+import org.example.chatservice.domain.entity.Member;
+import org.example.chatservice.domain.repository.MemberRepository;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;

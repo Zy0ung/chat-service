@@ -1,4 +1,4 @@
-package org.example.chatservice.user.emum;
+package org.example.chatservice.domain.emum;
 
 /**
  * @author jiyoung

@@ -1,8 +1,8 @@
-package org.example.chatservice.user.entity;
+package org.example.chatservice.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.chatservice.user.emum.Gender;
+import org.example.chatservice.domain.emum.Gender;
 
 import java.time.LocalDate;
 

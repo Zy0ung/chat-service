@@ -1,7 +1,7 @@
 package org.example.chatservice.global.vos;
 
 import lombok.AllArgsConstructor;
-import org.example.chatservice.user.entity.Member;
+import org.example.chatservice.domain.entity.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
