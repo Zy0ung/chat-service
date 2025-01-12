@@ -26,6 +26,34 @@
       </form>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <form class="form-inline">
+        <div class="form-group">
+          <label for="create">ChatRoom</label>
+          <input type="text" id="chatRoom-id" class="form-control" disabled="disabled" placeholder="chatRoom id">
+          <input type="text" id="chatRoom-title" class="form-control" placeholder="chatRoom title">
+        </div>
+        <button id="create" class="btn btn-default" disabled="disabled" type="button">Create</button>
+        <button id="leave" class="btn btn-default" disabled="disabled" type="button">Leave</button>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table id="chatRoom" class="table table-striped">
+        <thead>
+        <tr>
+          <th>ChatRooms</th>
+        </tr>
+        </thead>
+        <tbody id="chatRoom-list">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-md-12">
       <form class="form-inline">
@@ -33,7 +61,7 @@
           <label for="send">Message</label>
           <input type="text" id="message" class="form-control" placeholder="message to send">
         </div>
-        <button id="send" class="btn btn-default" type="button">Send</button>
+        <button id="send" class="btn btn-default" disabled="disabled" type="button">Send</button>
       </form>
     </div>
   </div>

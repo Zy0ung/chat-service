@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author jiyoung
@@ -33,10 +34,7 @@ public class ChatService {
                                     .build();
         chatroom = chatRoomRepository.save(chatroom);
 
-        MemberChatRoomMapping memberChatRoomMapping = MemberChatRoomMapping.builder()
-                                                                            .member(member)
-                                                                            .chatRoom(chatroom)
-                                                                            .build();
+        MemberChatRoomMapping memberChatRoomMapping = chatroom.addMember(member);
 
         memberChatRoomMapping = memberChatRoomMappingRepository.save(memberChatRoomMapping);
 
@@ -68,6 +66,7 @@ public class ChatService {
     /**
      * 채팅방 나가기
      */
+    @Transactional
     public Boolean leaveChatRoom(Member member, Long chatRoomId) {
         if (!memberChatRoomMappingRepository.existsByMemberIdAndChatRoomId(member.getId(), chatRoomId)){
             log.info("참여하지 않은 방입니다.");

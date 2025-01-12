@@ -2,6 +2,7 @@ package org.example.chatservice.domain.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.chatservice.domain.dto.ChatRoomDto;
 import org.example.chatservice.domain.entity.ChatRoom;
 import org.example.chatservice.domain.service.ChatService;
 import org.example.chatservice.global.vos.CustomOAuth2User;
@@ -25,8 +26,9 @@ public class ChatController {
      * 채팅방 생성
      */
     @PostMapping
-    public ChatRoom createChatRoom(@AuthenticationPrincipal CustomOAuth2User user, @RequestParam String title) {
-        return chatService.createChatRoom(user.getMember(), title);
+    public ChatRoomDto createChatRoom(@AuthenticationPrincipal CustomOAuth2User user, @RequestParam String title) {
+        ChatRoom chatRoom = chatService.createChatRoom(user.getMember(), title);
+        return ChatRoomDto.from(chatRoom);
     }
 
     /**
@@ -49,7 +51,9 @@ public class ChatController {
      * 참여 채팅방 조회
      */
     @GetMapping
-    public List<ChatRoom> getChatRooms(@AuthenticationPrincipal CustomOAuth2User user) {
-        return chatService.getChatRoomList(user.getMember());
+    public List<ChatRoomDto> getChatRooms(@AuthenticationPrincipal CustomOAuth2User user) {
+        List<ChatRoom> chatRoomList = chatService.getChatRoomList(user.getMember());
+
+        return chatRoomList.stream().map(ChatRoomDto::from).toList();
     }
 }

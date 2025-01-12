@@ -1,6 +1,7 @@
 package org.example.chatservice.domain.entity;
 
 import jakarta.persistence.*;
+import java.util.HashSet;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,4 +31,19 @@ public class ChatRoom {
 
     @OneToMany(mappedBy = "chatRoom")
     Set<MemberChatRoomMapping> memberChatRoomMappingSet;
+
+    public MemberChatRoomMapping addMember(Member member){
+        if(this.getMemberChatRoomMappingSet() == null){
+            this.memberChatRoomMappingSet = new HashSet<>();
+        }
+
+        MemberChatRoomMapping memberChatRoomMapping = MemberChatRoomMapping.builder()
+                                                                            .member(member)
+                                                                            .chatRoom(this)
+                                                                            .build();
+
+        this.getMemberChatRoomMappingSet().add(memberChatRoomMapping);
+
+        return memberChatRoomMapping;
+    }
 }
