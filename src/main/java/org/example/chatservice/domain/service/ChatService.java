@@ -5,8 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.chatservice.domain.entity.ChatRoom;
 import org.example.chatservice.domain.entity.Member;
 import org.example.chatservice.domain.entity.MemberChatRoomMapping;
+import org.example.chatservice.domain.entity.Message;
 import org.example.chatservice.domain.repository.ChatRoomRepository;
 import org.example.chatservice.domain.repository.MemberChatRoomMappingRepository;
+import org.example.chatservice.domain.repository.MessageRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,6 +25,7 @@ public class ChatService {
 
     private final ChatRoomRepository chatRoomRepository;
     private final MemberChatRoomMappingRepository memberChatRoomMappingRepository;
+    private final MessageRepository messageRepository;
 
     /**
      * 채팅방 개설
@@ -86,5 +89,26 @@ public class ChatService {
                 memberChatRoomMappingRepository.findAllByMemberId(member.getId());
 
         return memberChatRoomMappingList.stream().map(MemberChatRoomMapping::getChatRoom).toList();
+    }
+
+    /**
+     * 메시지 저장
+     */
+    public Message saveMessage(Member member, Long chatRoomId ,String text) {
+        ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).get();
+
+        Message message = Message.builder()
+                .text(text)
+                .member(member)
+                .chatRoom(chatRoom)
+                .build();
+        return messageRepository.save(message);
+    }
+
+    /**
+     * 메시지 가져오기
+     */
+    public List<Message> getMessageList(Long chatRoomId){
+        return messageRepository.findAllByChatRoomId(chatRoomId);
     }
 }

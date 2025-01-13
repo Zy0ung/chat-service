@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.chatservice.domain.dto.ChatRoomDto;
 import org.example.chatservice.domain.entity.ChatRoom;
+import org.example.chatservice.domain.entity.Message;
 import org.example.chatservice.domain.service.ChatService;
+import org.example.chatservice.global.dto.ChatMessage;
 import org.example.chatservice.global.vos.CustomOAuth2User;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -55,5 +57,15 @@ public class ChatController {
         List<ChatRoom> chatRoomList = chatService.getChatRoomList(user.getMember());
 
         return chatRoomList.stream().map(ChatRoomDto::from).toList();
+    }
+
+    /**
+     * 채팅방 메시지 조회
+     */
+    @GetMapping("/{chatRoomId}/messages")
+    public List<ChatMessage> getMessageList(@PathVariable Long chatRoomId) {
+        List<Message> messageList = chatService.getMessageList(chatRoomId);
+        return messageList.stream().map(message -> new ChatMessage(message.getMember().getNickname(),
+                message.getText())).toList();
     }
 }
