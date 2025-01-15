@@ -27,10 +27,18 @@ public class ChatRoom {
 
     String title;
 
-    LocalDateTime createAt;
+    LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "chatRoom")
     Set<MemberChatRoomMapping> memberChatRoomMappingSet;
+
+    // 클래스의 속성으로만 존재
+    @Transient
+    Boolean hasNewMessage;
+
+    public void setHasNewMessage(Boolean hasNewMessage) {
+        this.hasNewMessage = hasNewMessage;
+    }
 
     public MemberChatRoomMapping addMember(Member member){
         if(this.getMemberChatRoomMappingSet() == null){

@@ -1,6 +1,7 @@
 package org.example.chatservice.domain.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,4 +29,10 @@ public class MemberChatRoomMapping {
     @JoinColumn(name = "chat_room_id ")
     @ManyToOne
     ChatRoom chatRoom;
+
+    LocalDateTime lastCheckedAt;
+
+    public void updateLastCheckedAt() {
+        this.lastCheckedAt = LocalDateTime.now();
+    }
 }

@@ -33,7 +33,7 @@ public class ChatService {
     public ChatRoom createChatRoom(Member member, String title) {
         ChatRoom chatroom = ChatRoom.builder()
                                     .title(title)
-                                    .createAt(LocalDateTime.now())
+                                    .createdAt(LocalDateTime.now())
                                     .build();
         chatroom = chatRoomRepository.save(chatroom);
 
@@ -47,14 +47,18 @@ public class ChatService {
     /**
      * 채팅방 참여
      */
-    public Boolean joinChatRoom(Member member, Long chatRoomId) {
+    public Boolean joinChatRoom(Member member, Long newChatRoomId, Long currentChatRoomId) {
 
-        if(memberChatRoomMappingRepository.existsByMemberIdAndChatRoomId(member.getId(), chatRoomId)) {
+        if(currentChatRoomId != null) {
+            updateLastCheckedAt(member, currentChatRoomId);
+        }
+
+        if(memberChatRoomMappingRepository.existsByMemberIdAndChatRoomId(member.getId(), newChatRoomId)) {
             log.info("이미 참여한 채팅방입니다.");
             return false;
         }
 
-        ChatRoom chatroom = chatRoomRepository.findById(chatRoomId).get();
+        ChatRoom chatroom = chatRoomRepository.findById(newChatRoomId).get();
 
         MemberChatRoomMapping memberChatRoomMapping = MemberChatRoomMapping.builder()
                                                     .member(member)
@@ -64,6 +68,14 @@ public class ChatService {
         memberChatRoomMapping = memberChatRoomMappingRepository.save(memberChatRoomMapping);
 
         return true;
+    }
+
+    private void updateLastCheckedAt(Member member, Long currentChatRoomId) {
+        MemberChatRoomMapping memberChatRoomMapping = memberChatRoomMappingRepository.
+                findByMemberIdAndChatRoomId(member.getId(), currentChatRoomId).get();
+
+        memberChatRoomMapping.updateLastCheckedAt();
+        memberChatRoomMappingRepository.save(memberChatRoomMapping);
     }
 
     /**
@@ -84,12 +96,18 @@ public class ChatService {
      * 참여한 채팅방 목록
      */
     public List<ChatRoom> getChatRoomList(Member member) {
-
         List<MemberChatRoomMapping> memberChatRoomMappingList =
                 memberChatRoomMappingRepository.findAllByMemberId(member.getId());
 
-        return memberChatRoomMappingList.stream().map(MemberChatRoomMapping::getChatRoom).toList();
+        return memberChatRoomMappingList.stream().map(memberChatRoomMapping -> {
+            ChatRoom chatRoom = memberChatRoomMapping.getChatRoom();
+            chatRoom.setHasNewMessage(
+                    messageRepository.existsByChatRoomIdAndCreatedAtAfter(chatRoom.getId(),
+                    memberChatRoomMapping.getLastCheckedAt()));
+            return chatRoom;
+        }).toList();
     }
+
 
     /**
      * 메시지 저장
@@ -101,6 +119,7 @@ public class ChatService {
                 .text(text)
                 .member(member)
                 .chatRoom(chatRoom)
+                .createdAt(LocalDateTime.now())
                 .build();
         return messageRepository.save(message);
     }

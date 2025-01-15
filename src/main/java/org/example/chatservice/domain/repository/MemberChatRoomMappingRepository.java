@@ -1,5 +1,6 @@
 package org.example.chatservice.domain.repository;
 
+import java.util.Optional;
 import org.example.chatservice.domain.entity.MemberChatRoomMapping;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -17,4 +18,6 @@ public interface MemberChatRoomMappingRepository extends JpaRepository<MemberCha
     void deleteByMemberIdAndChatRoomId(Long memberId, Long chatRoomId);
 
     List<MemberChatRoomMapping> findAllByMemberId(Long memberId);
+
+    Optional<MemberChatRoomMapping> findByMemberIdAndChatRoomId(Long memberId, Long chatRoomId);
 }

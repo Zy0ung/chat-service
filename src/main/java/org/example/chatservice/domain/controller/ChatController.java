@@ -37,8 +37,9 @@ public class ChatController {
      * 채팅방 참여
      */
     @PostMapping("/{chatRoomId}")
-    public Boolean joinChatRoom(@AuthenticationPrincipal CustomOAuth2User user, @PathVariable Long chatRoomId) {
-        return chatService.joinChatRoom(user.getMember(), chatRoomId);
+    public Boolean joinChatRoom(@AuthenticationPrincipal CustomOAuth2User user, @PathVariable Long chatRoomId,
+                                @RequestParam(required = false) Long currentChatRoomId) {
+        return chatService.joinChatRoom(user.getMember(), chatRoomId, currentChatRoomId);
     }
 
     /**
