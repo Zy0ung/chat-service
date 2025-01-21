@@ -1,19 +1,18 @@
 package org.example.chatservice.global.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.example.chatservice.global.vos.CustomOAuth2User;
 import org.example.chatservice.domain.emum.Gender;
 import org.example.chatservice.domain.entity.Member;
 import org.example.chatservice.domain.repository.MemberRepository;
+import org.example.chatservice.global.vos.CustomOAuth2User;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Map;
 
 /**
  * @author jiyoung
@@ -37,14 +36,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private Member registerMember(Map<String, Object> attributeMap) {
         Member member = Member.builder()
-                        .email((String) attributeMap.get("email"))
-                        .nickname((String) ((Map) attributeMap.get("profile")).get("nickname"))
-                        .name((String) attributeMap.get("name"))
-                        .phoneNumber((String) attributeMap.get("phone_number"))
-                        .gender(Gender.valueOf(((String) attributeMap.get("gender")).toUpperCase()))
-                        .birthDay(getBirthDay(attributeMap))
-                        .role("USER_ROLE")
-                        .build();
+                .email((String) attributeMap.get("email"))
+                .nickname((String) ((Map) attributeMap.get("profile")).get("nickname"))
+                .name((String) attributeMap.get("name"))
+                .phoneNumber((String) attributeMap.get("phone_number"))
+                .gender(Gender.valueOf(((String) attributeMap.get("gender")).toUpperCase()))
+                .birthDay(getBirthDay(attributeMap))
+                .role("ROLE_USER")
+                .build();
 
         return memberRepository.save(member);
     }

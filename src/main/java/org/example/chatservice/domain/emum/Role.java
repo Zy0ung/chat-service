@@ -1,0 +1,28 @@
+package org.example.chatservice.domain.emum;
+
+import java.util.Arrays;
+
+/**
+ * @author jiyoung
+ */
+public enum Role {
+    USER("ROLE_USER"),
+    CONSULTANT("ROLE_CONSULTANT");
+
+    String code;
+
+    Role(String code) {
+        this.code = code;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public static Role fromCode(String code) {
+        return Arrays.stream(Role.values())
+                .filter(role -> role.getCode().equals(code))
+                .findFirst()
+                .orElseThrow();
+    }
+}
