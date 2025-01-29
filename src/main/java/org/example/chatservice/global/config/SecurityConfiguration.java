@@ -23,6 +23,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(request ->
                         request.anyRequest().authenticated())
                 .oauth2Login(Customizer.withDefaults())
+                .formLogin(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable());
 
         return http.build();
@@ -31,10 +32,9 @@ public class SecurityConfiguration {
     // filterChain 작동 순서적용
     @Order(1)
     @Bean
-    public SecurityFilterChain consultantSecurityFilterChain(HttpSecurity http, HttpSecurity httpSecurity)
-            throws Exception {
+    public SecurityFilterChain consultantSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/consultants/**", "/login")
+                .securityMatcher("/consultants/**")
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(HttpMethod.POST, "/consultants").permitAll()
                         .anyRequest().hasRole("CONSULTANT"))
